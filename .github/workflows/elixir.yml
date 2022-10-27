@@ -2,19 +2,16 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
+    branches: [main]
 
 jobs:
   build:
-
     name: Build and test
     runs-on: ubuntu-latest
 
+    # Define as configuraçãoes usadas para o banco de dados
     services:
       db:
         image: postgres:13
@@ -25,7 +22,7 @@ jobs:
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 5    
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v3
@@ -36,12 +33,12 @@ jobs:
           otp-version: '24.1' # Define the OTP version [required]
 
       - name: Restore dependencies cache
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
-        
+
       - name: Check Formatting
         run: mix format --check-formatted
 
@@ -89,4 +86,3 @@ jobs:
           GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
           MIGRATIONS: false # defaults to true
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
