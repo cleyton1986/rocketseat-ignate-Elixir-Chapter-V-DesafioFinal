@@ -15,6 +15,18 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:13
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5    
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Elixir
@@ -28,7 +40,52 @@ jobs:
         path: deps
         key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
-    - name: Install dependencies
-      run: mix deps.get
-    - name: Run tests
-      run: mix test
+        
+      - name: Check Formatting
+        run: mix format --check-formatted
+
+      - name: Run credo
+        run: mix credo --strict
+
+      - name: Check coverage
+        run: mix coveralls.json
+        env:
+          MIX_ENV: test
+
+      - name: Run codecov script
+        run: bash <(curl -s https://codecov.io/bash)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Run tests
+        run: mix test
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.1
+
+      - uses: mhanberg/gigalixir-action@v0.4.0
+        with:
+          APP_SUBFOLDER: my-app-subfolder
+          GIGALIXIR_APP: glum-idolized-tegus
+          GIGALIXIR_CLEAN: true
+          GIGALIXIR_USERNAME: ${{ secrets.GIGALIXIR_USERNAME }}
+          GIGALIXIR_PASSWORD: ${{ secrets.GIGALIXIR_PASSWORD }}
+          MIGRATIONS: false # defaults to true
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
