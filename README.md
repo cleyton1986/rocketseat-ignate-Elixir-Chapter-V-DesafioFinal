@@ -18,7 +18,7 @@
 
 </br>
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/cleyton1986/rocketseat-ignite-Elixir-Chapter-III-CRUD-meals?color=%2304D361">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/cleyton1986/rocketseat-ignate-Elixir-Chapter-V-DesafioFinal?color=%2304D361">
 
   <a href="https://www.linkedin.com/in/cleytonalves">
     <img alt="Made by Cleyton" src="https://img.shields.io/badge/Made%20by-Cleyton_Alves-Alves%2304D361">
@@ -26,15 +26,14 @@
 
   <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
 
-  <a href="https://github.com/cleyton1986/rocketseat-ignite-Elixir-Chapter-III-CRUD-meals/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/cleyton1986/rocketseat-ignite-Elixir-Chapter-III-CRUD-meals?style=social">
+  <a href="https://github.com/cleyton1986/rocketseat-ignate-Elixir-Chapter-V-DesafioFinal/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/cleyton1986/rocketseat-ignate-Elixir-Chapter-V-DesafioFinal?style=social">
   </a>
 </p>
 
 <p align="center">
   <a href="#tecnologias-e-recursos">Tecnologias e Recursos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#sobre-o-desafios">Sobre o desafios</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#específicação-dos-testes">Especificação de testes</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#instalação-e-execução">Instalação e execução</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#calendar-entrega">Entrega</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#memo-licença">Licença</a>
@@ -44,6 +43,14 @@
 ## Tecnologias e recursos
 
 - [Elixir](https://elixir-lang.org/install.html)
+- [Phenix](https://www.phoenixframework.org/)
+- [Docker](https://www.docker.com/)
+- [Postgres](https://www.postgresql.org/)
+- [GitHub / GitHub Actions](https://github.com/features/actions)
+- [Gigalixir](https://www.gigalixir.com/)
+- [Bypass](https://elixirschool.com/pt/lessons/testing/bypass)
+- [Guardian](https://github.com/ueberauth/guardian)
+- [Tesla](https://github.com/elixir-tesla/tesla)
 
 </br>
 
@@ -73,10 +80,19 @@ Esse desafio foi entregue na plataforma Skylab - Rocketseat.
 # OBS.: ANTES DE PROCEDIMENTO, CERTIFIQUE-SE QUE O ELIXIR ESTEJA INSTALADO NO SEU COMPUTADOR CORRETAMENTE.
 
 # Clone esse repositório
-$ git clone https://github.com/cleyton1986/rocketseat-ignite-Elixir-Chapter-III-CRUD-meals
+$ git clone https://github.com/cleyton1986/rocketseat-ignate-Elixir-Chapter-V-DesafioFinal
 
 # Entre no diretório
-$ cd rocketseat-ignite-Elixir-Chapter-III-CRUD-meals
+$ cd rocketseat-ignate-Elixir-Chapter-V-DesafioFinal
+
+# Iniciar o container com o banco Postgres;
+$ docker-compose up -d
+
+# Criação do banco de dados e migrations;
+$ mix setup
+
+# Roda o Servidor Phenix
+$ mix phx.server
 
 # baixe as dependencias
 $ mix deps.get
@@ -93,7 +109,8 @@ $ mix test --cover
 # acessando o iex
 $ iex -S mix
 
-# teste dos métodos usando usando o iex
+# rodando o Phenix usando usando o iex
+$ iex -S mix phx.server
 
 ```
 ## :memo: Licença
